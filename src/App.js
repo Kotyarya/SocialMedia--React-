@@ -3,7 +3,7 @@ import Header from "./Components/Header/Header";
 import Nav from "./Components/Nav/Nav";
 import Profile from "./Components/Profile/Profile";
 
-let App = () => {
+const App = () => {
   return (
     <>
       <Header />

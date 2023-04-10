@@ -1,6 +1,6 @@
 import style from "./Header.module.css";
 
-let Header = () => {
+const Header = () => {
   return (
     <header className={style.header}>
       <img

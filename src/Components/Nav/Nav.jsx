@@ -1,6 +1,6 @@
 import style from "./Nav.module.css"
 
-let Nav = () => {
+const Nav = () => {
     return (
         <nav className={style.nav}>
             <p className={style.item}>Profile</p>

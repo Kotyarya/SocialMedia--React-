@@ -1,0 +1,14 @@
+.av {
+    background: deeppink ;
+    width: 30px ;
+    height: 30px;
+    display: block;
+    border-radius: 50%;
+}
+
+.block {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin: 10px;
+}
