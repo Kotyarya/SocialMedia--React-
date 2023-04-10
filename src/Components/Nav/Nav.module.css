@@ -9,3 +9,6 @@
 .item {
     color: white;
 }
+.active {
+    color: aqua;
+}

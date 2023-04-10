@@ -14,5 +14,7 @@
   width: 80vw;
   gap: 20px;
 }
-
-
+.content {
+  display: flex;
+  flex-direction:column ;
+}
