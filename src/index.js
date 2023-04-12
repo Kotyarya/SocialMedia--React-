@@ -5,11 +5,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from 'react-router-dom'
 
+
+let postData = [
+    { id: 1, message: "Hi!", likeCont: 45 },
+    { id: 2, message: "its my first message", likeCont: 89 },
+];
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
       <BrowserRouter>
-          <App />
+          <App posts={postData}/>
       </BrowserRouter>
   </React.StrictMode>
 );
