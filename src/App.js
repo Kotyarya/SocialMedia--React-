@@ -13,8 +13,8 @@ const App = (props) => {
                     <Nav/>
                     <div className='content'>
                         <Routes>
-                            <Route path='/profile' element={<Profile profilePage={props.state.profilePage} addPost={props.addPost} updateNewPostText={props.updateNewPostText}/>}/>
-                            <Route path='/dialogs/*' element={<Dialogs state={props.state.messagesPage}/>} />
+                            <Route path='/profile' element={<Profile profilePage={props.state.profilePage} dispatch={props.dispatch}/>}/>
+                            <Route path='/dialogs/*' element={<Dialogs dialogPage={props.state.dialogsPage} dispacth={props.dispatch}/>} />
                         </Routes>
                     </div>
                 </div>

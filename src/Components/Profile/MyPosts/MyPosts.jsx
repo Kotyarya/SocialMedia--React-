@@ -1,25 +1,28 @@
 import Post from "./Post/Post";
 import React from "react";
+import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../Redux/state";
+
 
 const MyPosts = (props) => {
     let newPostElement = React.createRef()
-    let addPosts = () => {
-        let text = newPostElement.current.value
-        props.addPost(text)
-        newPostElement.current.value = ""
 
+    let addPosts = () => {
+        props.dispatch(addPostActionCreator())
+        newPostElement.current.value = ""
     }
 
     let onPostChanged = () => {
-        let text =newPostElement.current.value
-        props.updateNewPostText(text)
+        let text = newPostElement.current.value
+        let action = updateNewPostTextActionCreator(text)
+        props.dispatch(action)
     }
+
 
   return (
     <>
       <textarea ref={newPostElement} onChange={onPostChanged}/>
       <button onClick={addPosts}>Add post</button>
-      {props.posts.map(item => <Post key={Math.random()} message={item.message} likeCount={`${item.likeCount}`}/>)}
+      {props.posts.map(item => <Post key={item.id} message={item.message} likeCount={`${item.likeCount}`}/>)}
     </>
   );
 };

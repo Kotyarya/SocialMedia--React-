@@ -7,8 +7,7 @@ const DialogItem = (props) => {
             to={props.id}
             className={({ isActive }) =>
                 isActive ? `${style.item} ${style.itemActive}` : `${style.item}`
-            }
-        >
+            }>
             {props.name}
         </NavLink>
     );
