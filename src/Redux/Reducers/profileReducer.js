@@ -1,8 +1,17 @@
 const addPost = "addPost";
 const updateNewPostText = "updateNewPostText";
-export const addPostActionCreator = () => ({type : addPost})
-export const updateNewPostTextActionCreator = (text) => ({type : updateNewPostText, newPostText: text})
-const profileReducer = (state,action) => {
+
+const initialState = {
+        posts: [
+            { id: 1, message: "Hi!", likeCount: 45 },
+            { id: 2, message: "its my first message", likeCount: 89 },
+        ],
+        newPostText : ""
+
+}
+
+const profileReducer = (state = initialState,action) => {
+
 
     // eslint-disable-next-line default-case
     switch (action.type) {
@@ -25,4 +34,9 @@ const profileReducer = (state,action) => {
 
 }
 
+
+
+
 export  default profileReducer
+export const addPostActionCreator = () => ({type : addPost})
+export const updateNewPostTextActionCreator = (text) => ({type : updateNewPostText, newPostText: text})
