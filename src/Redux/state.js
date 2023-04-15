@@ -1,3 +1,6 @@
+import profileReducer from "./profileReducer";
+import dialogsReducer from "./dialogsReducer";
+
 const store = {
     _state : {
         profilePage : {
@@ -40,53 +43,16 @@ const store = {
 
 
     _callSubscriber() {
-        console.log('Changed')
     },
     dispatch(action) {
-        if (action.type === addPost) {
-            let temp = this._state.profilePage.posts
-            let newPost = {
-                id: parseInt(temp[temp.length - 1].id) + 1,
-                message: this._state.profilePage.newPostText,
-                likeCount: 0
-            }
-            this._state.profilePage.newPostText = ""
-            this._state.profilePage.posts.push(newPost)
-            this._callSubscriber(this._state)
-        } else if (action.type === updateNewPostText) {
-            this._state.profilePage.newPostText = action.newPostText
-            this._callSubscriber(this._state)
-        } else if (action.type === updateNewMessageText) {
-            this._state.dialogsPage.newMessageText = action.newMessageText
-            this._callSubscriber(this._state)
-        } else if (action.type === sendMessage) {
-            const body = this._state.dialogsPage.newMessageText
-            this._state.dialogsPage.newMessageText = ""
-            let temp = this._state.dialogsPage.messages
-            this._state.dialogsPage.messages.push({
-                id: parseInt(temp[temp.length - 1].id) + 1,
-                message: body
-            })
-            this._callSubscriber(this._state)
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage,action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage,action)
+        this._callSubscriber(this._state)
     }
 
 
     //? --------------------------
 }
-
-const addPost = "addPost";
-const updateNewPostText = "updateNewPostText";
-const updateNewMessageText = "updateNewMessageText"
-const sendMessage = "sendMessage"
-
-
-export const addPostActionCreator = () => ({type : addPost})
-export const updateNewPostTextActionCreator = (text) => ({type : updateNewPostText, newPostText: text})
-export const sendMessageActionCreator = () => ({type : sendMessage})
-export const updateNewMessageTextActionCreator = (text) => ({type : updateNewMessageText, newMessageText: text})
-
-
 
 export default store
 
