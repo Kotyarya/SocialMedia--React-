@@ -4,11 +4,10 @@ import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 
 const Dialogs = (props) => {
-
     const newMessageElement = React.createRef()
 
-    let messagesElement = props.messages.map(item => <Message id={`${item.id}`} key={`${item.id}`} message={item.message}/>)
-    let dialogsElement = props.dialogs.map(item => <DialogItem name={item.name} id={`${item.id}`} key={`${item.id}`} />)
+    let messagesElement = props.dialogsPage.messages.map(item => <Message id={`${item.id}`} key={`${item.id}`} message={item.message}/>)
+    let dialogsElement = props.dialogsPage.dialogs.map(item => <DialogItem name={item.name} id={`${item.id}`} key={`${item.id}`} />)
 
 
 
@@ -17,11 +16,11 @@ const Dialogs = (props) => {
             return
         }
         newMessageElement.current.value = ""
-        props.onSendMessage()
+        props.sendMessage()
     }
     let onMessageChange = () => {
         let text = newMessageElement.current.value
-        props.onMessageChange(text)
+        props.messageChange(text)
     }
 
   return (
