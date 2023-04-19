@@ -11,6 +11,7 @@ let mapStateToProps = (state) => {
 }
 
 
+
 let mapDispatchToProps = (dispatch) => {
     return {
         updateNewPostText: (text) => {
@@ -24,7 +25,4 @@ let mapDispatchToProps = (dispatch) => {
 }
 
 const MyPostsContainer = connect(mapStateToProps,mapDispatchToProps)(MyPosts)
-
-
-
 export default MyPostsContainer;

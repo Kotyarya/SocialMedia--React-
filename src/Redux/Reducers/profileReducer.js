@@ -10,24 +10,30 @@ const initialState = {
 
 }
 
+
 const profileReducer = (state = initialState,action) => {
 
 
     // eslint-disable-next-line default-case
     switch (action.type) {
-        case addPost:
+        case addPost: {
             let temp = state.posts
             let newPost = {
                 id: parseInt(temp[temp.length - 1].id) + 1,
                 message: state.newPostText,
                 likeCount: 0
             }
-            state.newPostText = ""
-            state.posts.push(newPost)
-            return state;
-        case updateNewPostText:
-            state.newPostText = action.newPostText
-            return state;
+            let stateCopy = {...state}
+            stateCopy.posts = [...state.posts]
+            stateCopy.posts.push(newPost)
+            stateCopy.newPostText = ""
+            return stateCopy;
+        }
+        case updateNewPostText: {
+            let stateCopy = {...state}
+            stateCopy.newPostText = action.newPostText
+            return stateCopy;
+        }
         default:
             return state
     }
