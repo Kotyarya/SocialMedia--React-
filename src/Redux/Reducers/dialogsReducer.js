@@ -25,16 +25,14 @@ const initialState = {
 
 
 export const dialogsReducer = (state = initialState, action) => {
+
+    let stateCopy = JSON.parse(JSON.stringify(state))
+
     switch (action.type) {
-        case updateNewMessageText: {
-            let stateCopy = {...state}
+        case updateNewMessageText:
             stateCopy.newMessageText = action.newMessageText
             return stateCopy;
-        }
-        case sendMessage: {
-            let stateCopy = {...state}
-            stateCopy.dialogs = [...state.dialogs]
-            stateCopy.messages = [...state.messages]
+        case sendMessage:
             const body = stateCopy.newMessageText
             stateCopy.newMessageText = ""
             let temp = stateCopy.messages
@@ -43,7 +41,6 @@ export const dialogsReducer = (state = initialState, action) => {
                 message: body
             })
             return stateCopy;
-        }
         default:
             return state
     }
