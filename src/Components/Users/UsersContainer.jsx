@@ -1,11 +1,18 @@
 import {connect} from "react-redux";
 import Users from "./Users";
-import {followAC, setUsersAC, unfollowAC} from "../../Redux/Reducers/usersReducer";
+import {
+    followAC,
+    searchUserUpdateTextAC,
+    setUsersAC,
+    showMoreUsersAc,
+    unfollowAC
+} from "../../Redux/Reducers/usersReducer";
 
 
 let mapStateToProps = (state) => {
     return {
-        users: state.usersPage.users
+        users: state.usersPage.users,
+        searchUserText : state.usersPage.searchUserText
     }
 }
 
@@ -21,7 +28,13 @@ let mapDispatchToProps = (dispatch) => {
         },
         setUsers: (users) => {
             dispatch(setUsersAC(users))
-        }
+        },
+        showMoreUsers: (users) => {
+            dispatch(showMoreUsersAc(users))
+        },
+        searchUserUpdateText: (text) => {
+            dispatch(searchUserUpdateTextAC(text))
+        },
     }
 }
 
