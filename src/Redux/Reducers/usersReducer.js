@@ -7,11 +7,13 @@ const showMoreUsers = "showMoreUsers"
 
 const initialState = {
     users: [],
-    searchUserText : ""
+    searchUserText : "",
+    pageCount: 1
 }
 
 
 const usersReducer = (state = initialState,action) => {
+
     let stateCopy = JSON.parse(JSON.stringify(state))
 
     switch (action.type) {
@@ -33,12 +35,13 @@ const usersReducer = (state = initialState,action) => {
            stateCopy.users = [...action.users]
             return stateCopy
         case showMoreUsers:
+            stateCopy.pageCount++
             stateCopy.users = [...stateCopy.users, ...action.users]
             return stateCopy
         case searchUserUpdateText :
+            stateCopy.pageCount = 1
             stateCopy.searchUserText = action.text
             return stateCopy
-
         default:
             return state
     }
