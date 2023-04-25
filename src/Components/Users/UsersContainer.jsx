@@ -1,44 +1,37 @@
 import {connect} from "react-redux";
 import {
-    followAC,
-    searchUserUpdateTextAC,
-    setUsersAC,
-    showMoreUsersAc,
-    unfollowAC
+    follow,
+    searchUserUpdateText,
+    setUsers,
+    showMoreUsers,
+    toggleIsFetching,
+    unfollow
 } from "../../Redux/Reducers/usersReducer";
 import React from "react";
 import axios from "axios";
 import Users from "./Users";
+import Preloader from "../common/Preloader";
 
 
 let mapStateToProps = (state) => {
     return {
         users: state.usersPage.users,
         searchUserText : state.usersPage.searchUserText,
-        pageCount : state.usersPage.pageCount
+        currentPage : state.usersPage.currentPage,
+        pageSize: state.usersPage.pageSize,
+        isFetching: state.usersPage.isFetching
     }
 }
 
-let mapDispatchToProps = (dispatch) => {
-    return {
-        follow: (userId) => {
-            dispatch(followAC(userId))
-        },
-        unfollow: (userId) => {
-            dispatch(unfollowAC(userId))
-        },
-        setUsers: (users) => {
-            dispatch(setUsersAC(users))
-        },
-        showMoreUsers: (users) => {
-            dispatch(showMoreUsersAc(users))
-        },
-        searchUserUpdateText: (text) => {
-            dispatch(searchUserUpdateTextAC(text))
-        },
-    }
-}
 
+const dispatchToProps = {
+    follow,
+    unfollow,
+    setUsers,
+    showMoreUsers,
+    searchUserUpdateText,
+    toggleIsFetching
+}
 
 class UsersContainer extends React.PureComponent {
 
@@ -49,14 +42,16 @@ class UsersContainer extends React.PureComponent {
     }
 
     getUsers = (page,term,callBackFunc) => {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=8&term=${term}`)
+        this.props.toggleIsFetching(true)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.pageSize}&term=${term}`)
             .then(response => {
                 callBackFunc(response.data.items)
+                this.props.toggleIsFetching(false)
             })
     }
 
     showMoreUsers = (text) => {
-        let pageUp = this.props.pageCount + 1
+        let pageUp = this.props.currentPage + 1
         this.getUsers(pageUp,text,this.props.showMoreUsers)
     }
 
@@ -69,17 +64,22 @@ class UsersContainer extends React.PureComponent {
     }
 
     render() {
-        return (<Users
-            searchUser={this.searchUser}
-            searchUserText={this.props.searchUserText}
-            users={this.props.users}
-            follow={this.props.follow}
-            unfollow={this.props.unfollow}
-            showMoreUsers={this.showMoreUsers}
-        />)
+        return (
+            <>
+                {this.props.isFetching ? <Preloader /> : null}
+                <Users
+                    searchUserText={this.props.searchUserText}
+                    users={this.props.users}
+                    follow={this.props.follow}
+                    unfollow={this.props.unfollow}
+                    searchUser={this.searchUser}
+                    showMoreUsers={this.showMoreUsers}
+                />
+            </>
+        )
     }
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(UsersContainer)
+export default connect(mapStateToProps,dispatchToProps)(UsersContainer)
 
