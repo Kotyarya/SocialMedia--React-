@@ -41,21 +41,24 @@ const Users = (props) => {
                                 </div>
                                 {
                                     item.followed
-                                        ? <button onClick={() => {
+                                        ? <button disabled={props.isFollow.some(elem => elem === item.id)} onClick={() => {
+                                           props.toggleIsFollow(true,item.id)
                                            props.unfollowAPI(item.id)
                                                 .then(response => {
                                                     if (response.data.resultCode === 0) {
                                                         props.unfollow(item.id)
+                                                        props.toggleIsFollow(false,item.id)
                                                     }
                                                 })
-
                                         }}
                                         >Unfollow</button>
-                                        : <button onClick={() => {
+                                        : <button disabled={props.isFollow.some(elem => elem === item.id)} onClick={() => {
+                                            props.toggleIsFollow(true,item.id)
                                             props.followAPI(item.id)
                                                 .then(response => {
                                                     if (response.data.resultCode === 0) {
                                                         props.follow(item.id)
+                                                        props.toggleIsFollow(false,item.id)
                                                     }
                                                 })
                                         }}
@@ -67,7 +70,7 @@ const Users = (props) => {
                     : <p>No user</p>
             }
             </div>
-            <button onClick={onShowMoreUsers}>More Users</button>
+            <button disabled={props.isFetching} onClick={onShowMoreUsers}>More Users</button>
         </>
     )
 }

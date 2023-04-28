@@ -5,6 +5,7 @@ import {
     setUsers,
     showMoreUsers,
     toggleIsFetching,
+    toggleIsFollow,
     unfollow
 } from "../../Redux/Reducers/usersReducer";
 import React from "react";
@@ -19,7 +20,8 @@ let mapStateToProps = (state) => {
         searchUserText : state.usersPage.searchUserText,
         currentPage : state.usersPage.currentPage,
         pageSize: state.usersPage.pageSize,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        isFollow: state.usersPage.isFollow
     }
 }
 
@@ -30,7 +32,8 @@ const dispatchToProps = {
     setUsers,
     showMoreUsers,
     searchUserUpdateText,
-    toggleIsFetching
+    toggleIsFetching,
+    toggleIsFollow
 }
 
 class UsersContainer extends React.PureComponent {
@@ -47,6 +50,7 @@ class UsersContainer extends React.PureComponent {
 
     showMoreUsers = (text) => {
         let pageUp = this.props.currentPage + 1
+        this.props.toggleIsFetching(true)
         usersAPI.showMoreUsersWithText(pageUp,this.props.pageSize,text)
             .then(data => {
                 this.props.showMoreUsers(data.items)
@@ -56,6 +60,7 @@ class UsersContainer extends React.PureComponent {
 
     searchUser = (text) => {
         this.props.searchUserUpdateText(text)
+        this.props.toggleIsFetching(true)
         usersAPI.showMoreUsersWithText(1,this.props.pageSize,text)
             .then(data => {
                 this.props.setUsers(data.items)
@@ -73,6 +78,8 @@ class UsersContainer extends React.PureComponent {
         return usersAPI.unfollow(id)
     }
 
+
+
     render() {
         return (
             <>
@@ -86,7 +93,9 @@ class UsersContainer extends React.PureComponent {
                     unfollow={this.props.unfollow}
                     searchUser={this.searchUser}
                     showMoreUsers={this.showMoreUsers}
-
+                    toggleIsFollow={this.props.toggleIsFollow}
+                    isFetching={this.props.isFetching}
+                    isFollow={this.props.isFollow}
                 />
             </>
         )

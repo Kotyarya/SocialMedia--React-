@@ -3,7 +3,8 @@ const UNFOLLOW = "unfollow"
 const SET_USERS = "setUsers"
 const SEARCH_USER_UPDATE_TEXT = "searchUserUpdateText"
 const SHOW_MORE_USERS = "showMoreUsers"
-const TOGGLE_IS_FETCHING = 'toggleIsFetching'
+const TOGGLE_IS_FETCHING = "toggleIsFetching"
+const TOGGLE_IS_FOLLOW = "toggleIsFollow"
 
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
     searchUserText : "",
     currentPage: 1,
     pageSize: 8,
-    isFetching: false
+    isFetching: false,
+    isFollow: []
 }
 
 
@@ -48,6 +50,13 @@ const usersReducer = (state = initialState,action) => {
         case TOGGLE_IS_FETCHING:
             stateCopy.isFetching = action.isFetching
             return stateCopy
+        case TOGGLE_IS_FOLLOW:
+            if (action.isFollow) {
+                stateCopy.isFollow = [...stateCopy.isFollow, action.id]
+            } else {
+                stateCopy.isFollow = stateCopy.isFollow.filter(elem => elem !== action.id)
+            }
+            return stateCopy
         default:
             return state
     }
@@ -63,3 +72,4 @@ export const setUsers = (users) => ({type : SET_USERS, users})
 export const showMoreUsers = (users) => ({type : SHOW_MORE_USERS, users})
 export const searchUserUpdateText = (text) => ({type : SEARCH_USER_UPDATE_TEXT, text})
 export const toggleIsFetching = (isFetching) => ({type : TOGGLE_IS_FETCHING, isFetching})
+export const toggleIsFollow = (isFollow ,id) => ({type : TOGGLE_IS_FOLLOW, isFollow, id})
