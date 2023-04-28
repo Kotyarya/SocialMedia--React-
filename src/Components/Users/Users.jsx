@@ -41,8 +41,25 @@ const Users = (props) => {
                                 </div>
                                 {
                                     item.followed
-                                        ? <button onClick={() => props.unfollow(item.id)}>Unfollow</button>
-                                        : <button onClick={() => props.follow(item.id)}>Follow</button>
+                                        ? <button onClick={() => {
+                                           props.unfollowAPI(item.id)
+                                                .then(response => {
+                                                    if (response.data.resultCode === 0) {
+                                                        props.unfollow(item.id)
+                                                    }
+                                                })
+
+                                        }}
+                                        >Unfollow</button>
+                                        : <button onClick={() => {
+                                            props.followAPI(item.id)
+                                                .then(response => {
+                                                    if (response.data.resultCode === 0) {
+                                                        props.follow(item.id)
+                                                    }
+                                                })
+                                        }}
+                                        >Follow</button>
                                 }
                             </div>
                         )

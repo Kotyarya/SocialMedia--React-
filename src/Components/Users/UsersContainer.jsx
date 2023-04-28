@@ -8,9 +8,9 @@ import {
     unfollow
 } from "../../Redux/Reducers/usersReducer";
 import React from "react";
-import axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/Preloader";
+import {usersAPI} from "../../API/API";
 
 
 let mapStateToProps = (state) => {
@@ -37,30 +37,40 @@ class UsersContainer extends React.PureComponent {
 
     componentDidMount() {
         this.props.searchUserUpdateText("")
-        this.getUsers(1,'',this.props.setUsers)
-
-    }
-
-    getUsers = (page,term,callBackFunc) => {
-        this.props.toggleIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.pageSize}&term=${term}`)
-            .then(response => {
-                callBackFunc(response.data.items)
+        usersAPI.getUsers(1,this.props.pageSize)
+            .then(data => {
+                this.props.setUsers(data.items)
                 this.props.toggleIsFetching(false)
             })
+
     }
 
     showMoreUsers = (text) => {
         let pageUp = this.props.currentPage + 1
-        this.getUsers(pageUp,text,this.props.showMoreUsers)
+        usersAPI.showMoreUsersWithText(pageUp,this.props.pageSize,text)
+            .then(data => {
+                this.props.showMoreUsers(data.items)
+                this.props.toggleIsFetching(false)
+            })
     }
 
     searchUser = (text) => {
         this.props.searchUserUpdateText(text)
-        this.getUsers(1,text,this.props.setUsers)
+        usersAPI.showMoreUsersWithText(1,this.props.pageSize,text)
+            .then(data => {
+                this.props.setUsers(data.items)
+                this.props.toggleIsFetching(false)
+            })
         if (text === "") {
             this.componentDidMount()
         }
+    }
+
+    followAPI = (id) => {
+        return usersAPI.follow(id)
+    }
+    unfollowAPI = (id) => {
+        return usersAPI.unfollow(id)
     }
 
     render() {
@@ -71,9 +81,12 @@ class UsersContainer extends React.PureComponent {
                     searchUserText={this.props.searchUserText}
                     users={this.props.users}
                     follow={this.props.follow}
+                    followAPI={this.followAPI}
+                    unfollowAPI={this.unfollowAPI}
                     unfollow={this.props.unfollow}
                     searchUser={this.searchUser}
                     showMoreUsers={this.showMoreUsers}
+
                 />
             </>
         )
