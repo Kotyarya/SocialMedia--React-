@@ -1,9 +1,12 @@
 import {connect} from "react-redux";
 import {
     follow,
+    getUsersThunkCreator,
+    searchUserThunkCreator,
     searchUserUpdateText,
     setUsers,
     showMoreUsers,
+    showMoreUsersThunkCreator,
     toggleIsFetching,
     toggleIsFollow,
     unfollow
@@ -33,39 +36,25 @@ const dispatchToProps = {
     showMoreUsers,
     searchUserUpdateText,
     toggleIsFetching,
-    toggleIsFollow
+    toggleIsFollow,
+    getUsersThunkCreator,
+    showMoreUsersThunkCreator,
+    searchUserThunkCreator
 }
 
 class UsersContainer extends React.PureComponent {
 
     componentDidMount() {
-        this.props.searchUserUpdateText("")
-        usersAPI.getUsers(1,this.props.pageSize)
-            .then(data => {
-                this.props.setUsers(data.items)
-                this.props.toggleIsFetching(false)
-            })
-
+        this.props.getUsersThunkCreator(this.props.pageSize)
     }
 
     showMoreUsers = (text) => {
         let pageUp = this.props.currentPage + 1
-        this.props.toggleIsFetching(true)
-        usersAPI.showMoreUsersWithText(pageUp,this.props.pageSize,text)
-            .then(data => {
-                this.props.showMoreUsers(data.items)
-                this.props.toggleIsFetching(false)
-            })
+        this.props.showMoreUsersThunkCreator(text,this.props.pageSize,pageUp)
     }
 
     searchUser = (text) => {
-        this.props.searchUserUpdateText(text)
-        this.props.toggleIsFetching(true)
-        usersAPI.showMoreUsersWithText(1,this.props.pageSize,text)
-            .then(data => {
-                this.props.setUsers(data.items)
-                this.props.toggleIsFetching(false)
-            })
+       this.props.searchUserThunkCreator(text,this.props.pageSize)
         if (text === "") {
             this.componentDidMount()
         }

@@ -9,26 +9,24 @@ import {profileAPI} from "../../API/API";
 const mapStateToProps = (state) => {
     return {
         profile: state.profilePage.profile,
-        isAuth : state.auth.isAuth,
-        id: state.auth.id
-
+        isAuth : state.profilePage.authProfile.isAuth,
+        id: state.profilePage.authProfile.id
     }
 }
 
 
-class ProfileContainer extends React.Component {
+class ProfileContainer extends React.PureComponent {
+
     componentDidMount() {
         let userId = this.props.params.userId
         if (!userId) {
-            if (this.props.isAuth) {
                 userId = this.props.id
-            }
         }
-        profileAPI.setProfile()
-            .then(response => {
-                this.props.setProfile(response.data)
-            })
-
+        
+            profileAPI.setProfile(userId)
+                .then(response => {
+                    this.props.setProfile(response)
+                })
     }
 
     render() {

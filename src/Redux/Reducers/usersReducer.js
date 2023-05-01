@@ -1,3 +1,5 @@
+import {usersAPI} from "../../API/API";
+
 const FOLLOW = "follow"
 const UNFOLLOW = "unfollow"
 const SET_USERS = "setUsers"
@@ -73,3 +75,29 @@ export const showMoreUsers = (users) => ({type : SHOW_MORE_USERS, users})
 export const searchUserUpdateText = (text) => ({type : SEARCH_USER_UPDATE_TEXT, text})
 export const toggleIsFetching = (isFetching) => ({type : TOGGLE_IS_FETCHING, isFetching})
 export const toggleIsFollow = (isFollow ,id) => ({type : TOGGLE_IS_FOLLOW, isFollow, id})
+
+export const getUsersThunkCreator = (pageSize) => (dispatch) => {
+    dispatch(searchUserUpdateText(""))
+    usersAPI.getUsers(1,pageSize)
+        .then(data => {
+            dispatch(setUsers(data.items))
+            dispatch(toggleIsFetching(false))
+        })
+}
+export const showMoreUsersThunkCreator = (text,pageSize,pageUp) => (dispatch) => {
+    dispatch(toggleIsFetching(true))
+    usersAPI.showMoreUsersWithText(pageUp,pageSize,text)
+        .then(data => {
+            dispatch(showMoreUsers(data.items))
+            dispatch(toggleIsFetching(false))
+        })
+}
+export const searchUserThunkCreator = (text,pageSize) => (dispatch) => {
+   dispatch(searchUserUpdateText(text))
+    dispatch(toggleIsFetching(true))
+    usersAPI.showMoreUsersWithText(1,pageSize,text)
+        .then(data => {
+            dispatch(setUsers(data.items))
+            dispatch(toggleIsFetching(false))
+        })
+}

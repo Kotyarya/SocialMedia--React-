@@ -11,14 +11,14 @@ const initial = axios.create({
 
 export const HeaderAPI = {
     authAPI () {
-        return  initial.get("auth/me")
-            .then(response => {
-                return response.data
-            })
+        return initial.get("auth/me")
+                .then(response => {
+                    return response.data
+                })
     }
 }
 export const profileAPI = {
-    setProfile (userId) {
+     setProfile (userId) {
         return initial.get(`profile/${userId}`)
             .then(response => {
                 return response.data
