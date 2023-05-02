@@ -1,14 +1,15 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {withRouter} from "../common/withRouter";
+import {withRouter} from "../../HOC/withRouter";
 import {setProfileThunkCreator} from "../../Redux/Reducers/profileReducer";
+import {compose} from "redux";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 const mapStateToProps = (state) => {
     return {
         profile: state.profilePage.profile,
-        isAuth : state.auth.isAuth,
         id: state.auth.id
     }
 }
@@ -39,5 +40,8 @@ class ProfileContainer extends React.PureComponent {
     }
 }
 
-withRouter(ProfileContainer)
-export default connect(mapStateToProps, {setProfileThunkCreator})(withRouter(ProfileContainer))
+export default compose(
+    connect(mapStateToProps, {setProfileThunkCreator}),
+    withAuthRedirect,
+    withRouter
+)(ProfileContainer)
