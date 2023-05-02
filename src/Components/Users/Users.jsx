@@ -1,12 +1,13 @@
 import style from "./Users.module.css";
 import userPhoto from "../../assets/img/userPhoto.png";
 import React from "react";
-import {NavLink} from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 
 const Users = (props) => {
 
-    const searchUserRef = React.createRef()
 
+    let navigate = useNavigate()
+    const searchUserRef = React.createRef()
 
     const onSearchUser = () => {
         let text = searchUserRef.current.value
@@ -16,7 +17,6 @@ const Users = (props) => {
         let text = searchUserRef.current.value
         props.showMoreUsers(text)
     }
-
 
     return (
         <>
@@ -42,25 +42,14 @@ const Users = (props) => {
                                 {
                                     item.followed
                                         ? <button disabled={props.isFollow.some(elem => elem === item.id)} onClick={() => {
-                                           props.toggleIsFollow(true,item.id)
-                                           props.unfollowAPI(item.id)
-                                                .then(response => {
-                                                    if (response.data.resultCode === 0) {
-                                                        props.unfollow(item.id)
-                                                        props.toggleIsFollow(false,item.id)
-                                                    }
-                                                })
+                                           props.unfollow(item.id)
                                         }}
                                         >Unfollow</button>
                                         : <button disabled={props.isFollow.some(elem => elem === item.id)} onClick={() => {
-                                            props.toggleIsFollow(true,item.id)
-                                            props.followAPI(item.id)
-                                                .then(response => {
-                                                    if (response.data.resultCode === 0) {
-                                                        props.follow(item.id)
-                                                        props.toggleIsFollow(false,item.id)
-                                                    }
-                                                })
+                                            if (!props.isAuth) {
+                                                return  navigate("/login")
+                                            }
+                                            props.follow(item.id)
                                         }}
                                         >Follow</button>
                                 }

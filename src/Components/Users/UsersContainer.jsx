@@ -1,6 +1,7 @@
 import {connect} from "react-redux";
 import {
     follow,
+    followThunkCreator,
     getUsersThunkCreator,
     searchUserThunkCreator,
     searchUserUpdateText,
@@ -9,12 +10,12 @@ import {
     showMoreUsersThunkCreator,
     toggleIsFetching,
     toggleIsFollow,
-    unfollow
+    unfollow,
+    unfollowThunkCreator
 } from "../../Redux/Reducers/usersReducer";
 import React from "react";
 import Users from "./Users";
 import Preloader from "../common/Preloader";
-import {usersAPI} from "../../API/API";
 
 
 let mapStateToProps = (state) => {
@@ -28,7 +29,6 @@ let mapStateToProps = (state) => {
     }
 }
 
-
 const dispatchToProps = {
     follow,
     unfollow,
@@ -39,7 +39,9 @@ const dispatchToProps = {
     toggleIsFollow,
     getUsersThunkCreator,
     showMoreUsersThunkCreator,
-    searchUserThunkCreator
+    searchUserThunkCreator,
+    followThunkCreator,
+    unfollowThunkCreator
 }
 
 class UsersContainer extends React.PureComponent {
@@ -60,14 +62,13 @@ class UsersContainer extends React.PureComponent {
         }
     }
 
-    followAPI = (id) => {
-        return usersAPI.follow(id)
-    }
-    unfollowAPI = (id) => {
-        return usersAPI.unfollow(id)
+    follow = (id) => {
+        this.props.followThunkCreator(id)
     }
 
-
+    unfollow = (id) => {
+       this.props.unfollowThunkCreator(id)
+    }
 
     render() {
         return (
@@ -76,10 +77,8 @@ class UsersContainer extends React.PureComponent {
                 <Users
                     searchUserText={this.props.searchUserText}
                     users={this.props.users}
-                    follow={this.props.follow}
-                    followAPI={this.followAPI}
-                    unfollowAPI={this.unfollowAPI}
-                    unfollow={this.props.unfollow}
+                    follow={this.follow}
+                    unfollow={this.unfollow}
                     searchUser={this.searchUser}
                     showMoreUsers={this.showMoreUsers}
                     toggleIsFollow={this.props.toggleIsFollow}

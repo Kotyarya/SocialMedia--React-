@@ -92,6 +92,7 @@ export const showMoreUsersThunkCreator = (text,pageSize,pageUp) => (dispatch) =>
             dispatch(toggleIsFetching(false))
         })
 }
+
 export const searchUserThunkCreator = (text,pageSize) => (dispatch) => {
    dispatch(searchUserUpdateText(text))
     dispatch(toggleIsFetching(true))
@@ -99,5 +100,26 @@ export const searchUserThunkCreator = (text,pageSize) => (dispatch) => {
         .then(data => {
             dispatch(setUsers(data.items))
             dispatch(toggleIsFetching(false))
+        })
+}
+
+export const followThunkCreator = (id) => (dispatch) => {
+    dispatch(toggleIsFollow(true,id))
+    usersAPI.follow(id)
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(follow(id))
+                dispatch(toggleIsFollow(false,id))
+            }
+        })
+}
+export const unfollowThunkCreator = (id) => (dispatch) => {
+    dispatch(toggleIsFollow(true,id))
+    usersAPI.unfollow(id)
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(unfollow(id))
+                dispatch(toggleIsFollow(false,id))
+            }
         })
 }
