@@ -23,6 +23,15 @@ export const profileAPI = {
             .then(response => {
                 return response.data
             })
+    },
+    getStatus (userId) {
+         return initial.get(`profile/status/${userId}`)
+             .then(response => {
+                     return response.data
+             })
+    },
+    updateStatus (status) {
+         return initial.put(`profile/status`, {status: status})
     }
 }
 export const usersAPI = {

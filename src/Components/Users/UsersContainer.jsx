@@ -25,7 +25,8 @@ let mapStateToProps = (state) => {
         currentPage : state.usersPage.currentPage,
         pageSize: state.usersPage.pageSize,
         isFetching: state.usersPage.isFetching,
-        isFollow: state.usersPage.isFollow
+        isFollow: state.usersPage.isFollow,
+        isAuth: state.auth.isAuth
     }
 }
 
@@ -84,6 +85,7 @@ class UsersContainer extends React.PureComponent {
                     toggleIsFollow={this.props.toggleIsFollow}
                     isFetching={this.props.isFetching}
                     isFollow={this.props.isFollow}
+                    isAuth={this.props.isAuth}
                 />
             </>
         )

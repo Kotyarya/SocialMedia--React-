@@ -2,15 +2,19 @@ import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
 import {withRouter} from "../../HOC/withRouter";
-import {setProfileThunkCreator} from "../../Redux/Reducers/profileReducer";
+import {
+    getStatusThunkCreator,
+    setProfileThunkCreator,
+    updateStatusThinkCreator
+} from "../../Redux/Reducers/profileReducer";
 import {compose} from "redux";
-import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 const mapStateToProps = (state) => {
     return {
         profile: state.profilePage.profile,
-        id: state.auth.id
+        id: state.auth.id,
+        status: state.profilePage.status
     }
 }
 
@@ -18,30 +22,24 @@ const mapStateToProps = (state) => {
 class ProfileContainer extends React.PureComponent {
 
     componentDidMount() {
-
-
+        debugger
         let userId = this.props.params.userId
         if (!userId) {
-            userId = this.props.id
+            userId = 28843
         }
-
-        if (userId !== null) {
-            this.props.setProfileThunkCreator(userId)
-        }
-
-
+        this.props.setProfileThunkCreator(userId)
+        this.props.getStatusThunkCreator(userId)
     }
 
     render() {
 
         return (
-            <Profile profile={this.props.profile} isAuth={this.props.isAuth}/>
+            <Profile profile={this.props.profile} isAuth={this.props.isAuth} status={this.props.status} updateStatus={this.props.updateStatusThinkCreator} />
         )
     }
 }
 
 export default compose(
-    connect(mapStateToProps, {setProfileThunkCreator}),
-    withAuthRedirect,
+    connect(mapStateToProps, {setProfileThunkCreator, getStatusThunkCreator,updateStatusThinkCreator}),
     withRouter
 )(ProfileContainer)
