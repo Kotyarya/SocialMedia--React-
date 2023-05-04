@@ -13,7 +13,7 @@ const ProfileStatus = (props) => {
     }
 
   return (
-      <div>
+     <div>
         {!editMode
             ? <div>
               <span onClick={() => toggleEditMode(true)}>{
@@ -26,7 +26,7 @@ const ProfileStatus = (props) => {
                 <input onChange={onUpdateStatus} autoFocus={true} onBlur={() => toggleEditMode(false)} type="text" value={status}/>
             </div>
         }
-      </div>
+     </div>
   )
 }
 

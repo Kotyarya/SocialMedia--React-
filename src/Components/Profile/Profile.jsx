@@ -4,6 +4,8 @@ import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import Preloader from "../common/Preloader";
 
 const Profile = (props) => {
+
+
     if (!props.profile) {
         return <Preloader/>
     }
