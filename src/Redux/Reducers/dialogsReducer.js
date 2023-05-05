@@ -1,7 +1,4 @@
-const updateNewMessageText = "updateNewMessageText"
 const sendMessage = "sendMessage"
-
-
 
 const initialState = {
         dialogs :[
@@ -20,7 +17,6 @@ const initialState = {
             { id: 5, message: "GG" },
             { id: 6, message: "PRIVET BLYAT" },
         ],
-        newMessageText : ""
 }
 
 
@@ -29,12 +25,8 @@ export const dialogsReducer = (state = initialState, action) => {
     let stateCopy = JSON.parse(JSON.stringify(state))
 
     switch (action.type) {
-        case updateNewMessageText:
-            stateCopy.newMessageText = action.newMessageText
-            return stateCopy;
         case sendMessage:
-            const body = stateCopy.newMessageText
-            stateCopy.newMessageText = ""
+            const body = action.text
             let temp = stateCopy.messages
             stateCopy.messages.push({
                 id: parseInt(temp[temp.length - 1].id) + 1,
@@ -50,5 +42,4 @@ export const dialogsReducer = (state = initialState, action) => {
 
 
 export default dialogsReducer
-export const sendMessageActionCreator = () => ({type : sendMessage})
-export const updateNewMessageTextActionCreator = (text) => ({type : updateNewMessageText, newMessageText: text})
+export const sendMessageActionCreator = (text) => ({type : sendMessage, text})

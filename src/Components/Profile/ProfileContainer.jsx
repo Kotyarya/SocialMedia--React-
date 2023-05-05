@@ -33,7 +33,6 @@ class ProfileContainer extends React.PureComponent {
 
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        debugger
         let prevPar = prevProps.params.userId
         let propsPar = this.props.params.userId
         if ((prevProps.id !== this.props.id) || (prevPar !== propsPar)) {

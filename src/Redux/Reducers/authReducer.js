@@ -1,6 +1,7 @@
-import {HeaderAPI} from "../../API/API";
+import {AuthAPI} from "../../API/API";
 
 const SET_AUTH_USER = "SET_AUTH_USER"
+const LOGIN_USER = "LOGIN_USER"
 
 const initialState = {
     login: null,
@@ -20,6 +21,10 @@ const authReducer = (state = initialState, action) => {
                 isAuth : true
             }
             return stateCopy;
+        case LOGIN_USER:
+            stateCopy.id = action.userId
+            stateCopy.isAuth = true
+            return stateCopy
         default:
             return state
     }
@@ -27,12 +32,24 @@ const authReducer = (state = initialState, action) => {
 
 export default authReducer
 export const setAuthUser = (data) => ({type : SET_AUTH_USER, data})
+export const loginUser = (userId) => ({type: LOGIN_USER, userId})
+
 
 export const setAuthUserThunkCreator = () => (dispatch) => {
-    HeaderAPI.authAPI()
+    AuthAPI.authMeAPI()
         .then(data => {
             if (data.resultCode === 0) {
                 dispatch(setAuthUser(data))
+            }
+        })
+}
+
+export const loginUserThunkCreator = (email,password,rememberMe) => (dispatch) => {
+    AuthAPI.authLoginAPI(email, password, rememberMe)
+        .then(response => {
+            if (response.resultCode === 0) {
+                console.log(response)
+                dispatch(loginUser(response.data.userId))
             }
         })
 }

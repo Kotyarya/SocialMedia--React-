@@ -3,18 +3,30 @@ import axios from "axios";
 const initial = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.0/",
     withCredentials: true,
+    crossDomain: true,
     headers: {
         "API-KEY": "de2f58aa-ef42-4071-9fd6-68c0a3584231"
     }
 })
 
 
-export const HeaderAPI = {
-    authAPI () {
+export const AuthAPI = {
+    authMeAPI () {
         return initial.get("auth/me")
                 .then(response => {
                     return response.data
                 })
+    },
+    authLoginAPI (email,password,rememberMe) {
+        return initial.post("auth/login", {
+            email,
+            password,
+            rememberMe
+        })
+            .then(response => response.data)
+    },
+    authLogoutAPI () {
+        return initial.delete("auth/login")
     }
 }
 export const profileAPI = {

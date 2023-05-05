@@ -1,34 +1,30 @@
 import Post from "./Post/Post";
 import React from "react";
+import PostForm from "./PostForm";
 
 const MyPosts = (props) => {
 
-    let newPostElement = React.createRef()
 
     let postsElement = props.posts.map(item => <Post key={item.id} message={item.message} likeCount={`${item.likeCount}`}/>)
 
 
-    let onAddPosts = () => {
-        if (newPostElement.current.value === "") {
+    const submit = (value) => {
+        if (value.PostText === "") {
             return
         }
-        props.addPost()
-        newPostElement.current.value = ""
+        props.addPost(value.PostText)
+        value.PostText = ""
     }
-
-    let onPostChanged = () => {
-        let text = newPostElement.current.value
-        props.updateNewPostText(text)
-    }
-
 
   return (
     <>
-      <textarea ref={newPostElement} onChange={onPostChanged} value={props.newPostText}/>
-      <button onClick={onAddPosts}>Add post</button>
+      <PostForm onSubmit={submit}/>
       {postsElement}
     </>
   );
 };
+
+
+
 
 export default MyPosts;
