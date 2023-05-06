@@ -48,7 +48,6 @@ export const loginUserThunkCreator = (email,password,rememberMe) => (dispatch) =
     AuthAPI.authLoginAPI(email, password, rememberMe)
         .then(response => {
             if (response.resultCode === 0) {
-                console.log(response)
                 dispatch(loginUser(response.data.userId))
             }
         })

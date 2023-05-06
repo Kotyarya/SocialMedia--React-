@@ -1,8 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import style from "./Dialogs.module.css";
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {useNavigate} from "react-router-dom";
 import DialogsForm from "./DialogsForm";
 
 const Dialogs = (props) => {
@@ -10,15 +9,6 @@ const Dialogs = (props) => {
     let messagesElement = props.dialogsPage.messages.map(item => <Message id={`${item.id}`} key={`${item.id}`} message={item.message}/>)
     let dialogsElement = props.dialogsPage.dialogs.map(item => <DialogItem name={item.name} id={`${item.id}`} key={`${item.id}`} />)
 
-
-
-    let navigate = useNavigate()
-    useEffect(() => {
-        if (!props.isAuth) {
-
-            return  navigate("/login")
-        }
-    })
 
     const submit = (value) => {
         if (value.MessageText === "") {

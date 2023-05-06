@@ -45,7 +45,7 @@ class ProfileStatus extends React.Component {
 
     onUpdateStatus = (e) => {
         this.setState({
-            status: e.target.value
+            status: e.currentTarget.value
         })
     }
 

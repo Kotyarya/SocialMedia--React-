@@ -1,7 +1,7 @@
-import {useNavigate} from "react-router-dom";
-import {useEffect} from "react";
 import {connect} from "react-redux";
 import {withRouter} from "./withRouter";
+import {useNavigate} from "react-router-dom";
+import {useEffect} from "react";
 
 const mapStateToProps = (state) => {
     return {
@@ -16,7 +16,8 @@ export const withAuthProfileRedirect = (Component) => {
         useEffect(() => {
             if (props.params.userId === undefined && props.isAuth !== false) {
                 return navigate(`/profile/${props.id}`)
-            } else if (props.params.userId === undefined && props.isAuth === false) {
+            }
+             else if (props.params.userId === undefined && props.isAuth === false) {
                 return navigate(`/login`)
             }
         })

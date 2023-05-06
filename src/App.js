@@ -7,7 +7,7 @@ import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import Login from "./Components/Login/Login";
 
-const App = (props) => {
+const App = () => {
     return (
         <>
             <HeaderContainer/>
