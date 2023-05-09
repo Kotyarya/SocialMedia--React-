@@ -13,7 +13,7 @@ const Header = (props) => {
             {
                 !props.isAuth
                 ? <NavLink to="/login">Login</NavLink>
-                : <p>Hello</p>
+                : <button onClick={() => props.logoutUserThunkCreator()}>Logout</button>
             }
         </header>
     );

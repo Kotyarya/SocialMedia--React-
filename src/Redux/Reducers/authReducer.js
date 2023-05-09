@@ -1,13 +1,14 @@
 import {AuthAPI} from "../../API/API";
+import {stopSubmit} from "redux-form";
 
 const SET_AUTH_USER = "SET_AUTH_USER"
-const LOGIN_USER = "LOGIN_USER"
+
 
 const initialState = {
     login: null,
-    id : null,
-    email : null,
-    isAuth : false
+    id: null,
+    email: null,
+    isAuth: false
 }
 
 const authReducer = (state = initialState, action) => {
@@ -18,37 +19,43 @@ const authReducer = (state = initialState, action) => {
         case SET_AUTH_USER:
             stateCopy = {
                 ...action.data.data,
-                isAuth : true
+                isAuth: action.isAuth
             }
             return stateCopy;
-        case LOGIN_USER:
-            stateCopy.id = action.userId
-            stateCopy.isAuth = true
-            return stateCopy
         default:
             return state
     }
 }
 
 export default authReducer
-export const setAuthUser = (data) => ({type : SET_AUTH_USER, data})
-export const loginUser = (userId) => ({type: LOGIN_USER, userId})
+export const setAuthUser = (data, isAuth) => ({type: SET_AUTH_USER, data, isAuth})
 
 
 export const setAuthUserThunkCreator = () => (dispatch) => {
-    AuthAPI.authMeAPI()
+    return AuthAPI.authMeAPI()
         .then(data => {
             if (data.resultCode === 0) {
-                dispatch(setAuthUser(data))
+                dispatch(setAuthUser(data, true))
             }
         })
 }
 
-export const loginUserThunkCreator = (email,password,rememberMe) => (dispatch) => {
+export const loginUserThunkCreator = (email, password, rememberMe) => (dispatch) => {
     AuthAPI.authLoginAPI(email, password, rememberMe)
         .then(response => {
             if (response.resultCode === 0) {
-                dispatch(loginUser(response.data.userId))
+                dispatch(setAuthUserThunkCreator())
+            } else (
+                dispatch(stopSubmit("Login", {_error: response.messages[0]}))
+            )
+        })
+}
+
+export const logoutUserThunkCreator = () => (dispatch) => {
+    AuthAPI.authLogoutAPI()
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(setAuthUser({email: null, id: null, login: null}, false))
             }
         })
 }

@@ -2,7 +2,6 @@ import {profileAPI} from "../../API/API";
 
 const addPost = "addPost"
 const SET_PROFILE = "SET_PROFILE"
-const SET_AUTH_USER = "SET_AUTH_USER"
 const SET_STATUS = "SET_STATUS"
 
 
@@ -38,12 +37,6 @@ const profileReducer = (state = initialState,action) => {
             return stateCopy
         case SET_PROFILE :
             stateCopy.profile = action.profile
-            return stateCopy
-        case SET_AUTH_USER:
-            stateCopy.authProfile = {
-                    ...action.data.data,
-                    isAuth : true
-                }
             return stateCopy
         case SET_STATUS:
             stateCopy.status = action.status

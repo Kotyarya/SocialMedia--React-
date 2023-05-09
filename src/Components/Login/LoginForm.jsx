@@ -19,6 +19,13 @@ let LoginForm = (props) => {
                 remember me
             </div>
             <div>
+                {
+                    props.error
+                    ? props.error
+                        : ""
+                }
+            </div>
+            <div>
                 <button>Login</button>
             </div>
         </form>

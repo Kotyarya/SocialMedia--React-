@@ -9,6 +9,7 @@ import {
 } from "../../Redux/Reducers/profileReducer";
 import {compose} from "redux";
 import {withAuthProfileRedirect} from "../../HOC/withAuthProfileRedirect";
+import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 const mapStateToProps = (state) => {
@@ -51,5 +52,6 @@ class ProfileContainer extends React.PureComponent {
 export default compose(
     connect(mapStateToProps, {setProfileThunkCreator, getStatusThunkCreator,updateStatusThinkCreator}),
     withRouter,
+    withAuthRedirect,
     withAuthProfileRedirect
 )(ProfileContainer)

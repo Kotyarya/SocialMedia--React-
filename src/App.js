@@ -6,8 +6,18 @@ import UsersContainer from "./Components/Users/UsersContainer";
 import ProfileContainer from "./Components/Profile/ProfileContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import Login from "./Components/Login/Login";
+import {compose} from "redux";
+import {connect} from "react-redux";
+import {initializeThunkCreator} from "./Redux/Reducers/appReducer";
+import Preloader from "./Components/common/Preloader";
 
-const App = () => {
+const App = (props) => {
+
+    props.initializeThunkCreator()
+
+    if (!props.initialize) {
+        return <Preloader/>
+    }
     return (
         <>
             <HeaderContainer/>
@@ -26,4 +36,12 @@ const App = () => {
     );
 };
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        initialize: state.app.initialize
+    }
+}
+
+export default compose(
+    connect(mapStateToProps,{initializeThunkCreator})
+)(App);
