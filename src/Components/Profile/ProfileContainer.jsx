@@ -13,6 +13,7 @@ import {withAuthRedirect} from "../../HOC/withAuthRedirect";
 
 
 const mapStateToProps = (state) => {
+    console.log("mapState")
     return {
         profile: state.profilePage.profile,
         id: state.auth.id,
@@ -43,6 +44,7 @@ class ProfileContainer extends React.PureComponent {
     }
 
     render() {
+        console.log("render")
         return (
             <Profile profile={this.props.profile} isAuth={this.props.isAuth} status={this.props.status} updateStatus={this.props.updateStatusThinkCreator} />
         )
