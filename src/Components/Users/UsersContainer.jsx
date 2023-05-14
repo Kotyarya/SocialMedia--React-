@@ -16,16 +16,25 @@ import {
 import React from "react";
 import Users from "./Users";
 import Preloader from "../common/Preloader";
+import {
+    getCurrentPage,
+    getIsFetching,
+    getIsFollow,
+    getPageSize,
+    getSearchUserText,
+    getUsers
+} from "../../Redux/Selector/UsersSelector";
 
 
 let mapStateToProps = (state) => {
+    console.log("mapState")
     return {
-        users: state.usersPage.users,
-        searchUserText : state.usersPage.searchUserText,
-        currentPage : state.usersPage.currentPage,
-        pageSize: state.usersPage.pageSize,
-        isFetching: state.usersPage.isFetching,
-        isFollow: state.usersPage.isFollow,
+        users: getUsers(state),
+        searchUserText : getSearchUserText(state),
+        currentPage : getCurrentPage(state),
+        pageSize: getPageSize(state),
+        isFetching: getIsFetching(state),
+        isFollow: getIsFollow(state),
         isAuth: state.auth.isAuth
     }
 }
@@ -72,6 +81,7 @@ class UsersContainer extends React.PureComponent {
     }
 
     render() {
+        console.log("render")
         return (
             <>
                 {this.props.isFetching ? <Preloader /> : null}

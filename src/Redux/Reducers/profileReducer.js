@@ -11,12 +11,6 @@ const initialState = {
         { id: 2, message: "its my first message", likeCount: 89 },
     ],
     profile: null,
-    authProfile: {
-        login: null,
-        id : null,
-        email : null,
-        isAuth : false
-    },
     status: ""
 }
 
